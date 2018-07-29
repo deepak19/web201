@@ -8,7 +8,7 @@ var OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 module.exports = {
     entry: ['babel-polyfill', './src/js/index.js'], // This is entry file. All dependencies will be looked in this file. Multiple files can be given here
     output: {
-        path: path.resolve(__dirname, 'dist'), // here we need absolute path//so we use a buildin Node package// __dirname --> this is current absolute path
+        path: path.resolve(__dirname, 'docs'), // here we need absolute path//so we use a buildin Node package// __dirname --> this is current absolute path
         filename: 'js/bundle.js' //Where to save output
     },
     optimization: {
@@ -17,7 +17,7 @@ module.exports = {
     ]
     },
     devServer: {
-        contentBase: './dist'
+        contentBase: './docs'
     },
     plugins: [
         new webpack.ProvidePlugin({
@@ -39,8 +39,8 @@ module.exports = {
         new ExtractTextPlugin('css/style.css'),
         new CopyWebpackPlugin([
             {
-                from: path.resolve(__dirname, 'src/img'), //copy images from src forder to dist folder
-                to: path.resolve(__dirname, 'dist/img')
+                from: path.resolve(__dirname, 'src/img'), //copy images from src forder to docs folder
+                to: path.resolve(__dirname, 'docs/img')
             }
         ])
     ],

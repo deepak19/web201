@@ -22977,7 +22977,7 @@ var Products = function () {
                                 _context.prev = 9;
                                 _context.t0 = _context['catch'](0);
 
-                                console.log(_context.t0);
+                                console.log('Error in Products->getFirebaseData: ' + _context.t0);
 
                             case 12:
                             case 'end':
@@ -41343,38 +41343,46 @@ var cart = function () {
     _createClass(cart, [{
         key: 'addFood',
         value: function addFood(id) {
-            var index = this.items.findIndex(function (x) {
-                return x.id == id;
-            });
-            var count = 1;
-            if (index == -1) {
-                var item = {
-                    id: id,
-                    count: count
-                };
-                this.items.push(item);
-            } else {
-                this.items[index].count++;
-                count = this.items[index].count;
+            try {
+                var index = this.items.findIndex(function (x) {
+                    return x.id == id;
+                });
+                var count = 1;
+                if (index == -1) {
+                    var item = {
+                        id: id,
+                        count: count
+                    };
+                    this.items.push(item);
+                } else {
+                    this.items[index].count++;
+                    count = this.items[index].count;
+                }
+                return count;
+            } catch (error) {
+                console.log('Error in cart->addFood: ' + error);
             }
-            return count;
         }
     }, {
         key: 'removeFood',
         value: function removeFood(id) {
-            var count;
-            var index = this.items.findIndex(function (x) {
-                return x.id == id;
-            });
-            if (index == -1) return false;
-            this.items[index].count--;
-            count = this.items[index].count;
-            if (this.items[index].count < 1) {
-                this.items = this.items.filter(function (x) {
-                    return x.id != id;
+            try {
+                var count;
+                var index = this.items.findIndex(function (x) {
+                    return x.id == id;
                 });
+                if (index == -1) return false;
+                this.items[index].count--;
+                count = this.items[index].count;
+                if (this.items[index].count < 1) {
+                    this.items = this.items.filter(function (x) {
+                        return x.id != id;
+                    });
+                }
+                return count;
+            } catch (error) {
+                console.log('Error in cart->removeFood: ' + error);
             }
-            return count;
         }
     }, {
         key: 'saveCart',
@@ -41421,32 +41429,40 @@ var filter = function () {
     _createClass(filter, [{
         key: 'category',
         value: function category(id, _this) {
-            var done = false;
-            if (id && _this.hasClass('active')) {
-                this.categoryFilter.push(id);
-                done = true;
-            } else {
-                this.categoryFilter = this.categoryFilter.filter(function (x) {
-                    return x != id;
-                });
-                done = true;
+            try {
+                var done = false;
+                if (id && _this.hasClass('active')) {
+                    this.categoryFilter.push(id);
+                    done = true;
+                } else {
+                    this.categoryFilter = this.categoryFilter.filter(function (x) {
+                        return x != id;
+                    });
+                    done = true;
+                }
+                return done;
+            } catch (error) {
+                console.log('Error in filter->category: ' + error);
             }
-            return done;
         }
     }, {
         key: 'cuisine',
         value: function cuisine(id, _this) {
-            var done = false;
-            if (id && _this.hasClass('active')) {
-                this.cuisineFilter.push(id);
-                done = true;
-            } else {
-                this.cuisineFilter = this.cuisineFilter.filter(function (x) {
-                    return x != id;
-                });
-                done = true;
+            try {
+                var done = false;
+                if (id && _this.hasClass('active')) {
+                    this.cuisineFilter.push(id);
+                    done = true;
+                } else {
+                    this.cuisineFilter = this.cuisineFilter.filter(function (x) {
+                        return x != id;
+                    });
+                    done = true;
+                }
+                return done;
+            } catch (error) {
+                console.log('Error in filter->cuisine: ' + error);
             }
-            return done;
         }
     }]);
 
@@ -41480,14 +41496,18 @@ var Search = function () {
     _createClass(Search, [{
         key: 'item',
         value: function item(allItems, key) {
-            var _this = this;
-            if (key) {
-                var regex = new RegExp(key, 'i');
-                $.each(allItems, function (key, val) {
-                    if (val.name.search(regex) != -1) {
-                        _this.results.push(val);
-                    }
-                });
+            try {
+                var _this = this;
+                if (key) {
+                    var regex = new RegExp(key, 'i');
+                    $.each(allItems, function (key, val) {
+                        if (val.name.search(regex) != -1) {
+                            _this.results.push(val);
+                        }
+                    });
+                }
+            } catch (error) {
+                console.log('Error in Search->item: ' + error);
             }
         }
     }]);
@@ -41525,33 +41545,37 @@ var Cartpage = function () {
     _createClass(Cartpage, [{
         key: 'getCartItems',
         value: function getCartItems() {
-            var cart = localStorage.getItem('cart');
-            var items;
-            var _this = this;
-            if (cart) {
-                cart = JSON.parse(cart);
-                _this.cart = cart;
-                //Get detailed items from local storage
-                var fire = localStorage.getItem('fire');
-                if (fire) {
-                    fire = JSON.parse(fire);
-                    // items = fire.items.filter(x => (_this.cart.findIndex(y => y.id == x.id) > -1));
-                    //                items = $.map(fire.items, function (x) {
-                    //                    return (_this.cart.findIndex(y => y.id == x.id) > -1)
-                    //                });
+            try {
+                var cart = localStorage.getItem('cart');
+                var items;
+                var _this = this;
+                if (cart) {
+                    cart = JSON.parse(cart);
+                    _this.cart = cart;
+                    //Get detailed items from local storage
+                    var fire = localStorage.getItem('fire');
+                    if (fire) {
+                        fire = JSON.parse(fire);
+                        // items = fire.items.filter(x => (_this.cart.findIndex(y => y.id == x.id) > -1));
+                        //                items = $.map(fire.items, function (x) {
+                        //                    return (_this.cart.findIndex(y => y.id == x.id) > -1)
+                        //                });
 
-                    items = fire.items.filter(function (x) {
-                        return _this.cart.findIndex(function (y) {
-                            if (y.id == x.id) {
-                                x.count = y.count;
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        }) > -1;
-                    });
+                        items = fire.items.filter(function (x) {
+                            return _this.cart.findIndex(function (y) {
+                                if (y.id == x.id) {
+                                    x.count = y.count;
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            }) > -1;
+                        });
+                    }
+                    this.items = items;
                 }
-                this.items = items;
+            } catch (error) {
+                console.log('Error in Cartpage->getCartItems: ' + error);
             }
         }
     }, {
@@ -41573,43 +41597,55 @@ var Cartpage = function () {
     }, {
         key: 'calculateTaxAndTotal',
         value: function calculateTaxAndTotal() {
-            var list = this.priceBreakdown.list;
-            var itemTotal = 0;
-            var tax1 = 0;
-            var tax2 = 0;
-            var total = 0;
-            if (list) {
-                list.forEach(function (l) {
-                    itemTotal = itemTotal + l.price * l.count;
-                    if (l.taxId == 1) {
-                        tax1 = tax1 + l.taxTotal();
-                    }
-                    if (l.taxId == 2) {
-                        tax2 = tax2 + l.taxTotal();
-                    }
-                });
-                total = itemTotal + tax1 + tax2;
-                this.priceBreakdown.itemTotal = itemTotal.toFixed(2);
-                this.priceBreakdown.tax1 = tax1.toFixed(2);
-                this.priceBreakdown.tax2 = tax2.toFixed(2);
-                this.priceBreakdown.finalTotal = total.toFixed(2);
+            try {
+                var list = this.priceBreakdown.list;
+                var itemTotal = 0;
+                var tax1 = 0;
+                var tax2 = 0;
+                var total = 0;
+                if (list) {
+                    list.forEach(function (l) {
+                        itemTotal = itemTotal + l.price * l.count;
+                        if (l.taxId == 1) {
+                            tax1 = tax1 + l.taxTotal();
+                        }
+                        if (l.taxId == 2) {
+                            tax2 = tax2 + l.taxTotal();
+                        }
+                    });
+                    total = itemTotal + tax1 + tax2;
+                    this.priceBreakdown.itemTotal = itemTotal.toFixed(2);
+                    this.priceBreakdown.tax1 = tax1.toFixed(2);
+                    this.priceBreakdown.tax2 = tax2.toFixed(2);
+                    this.priceBreakdown.finalTotal = total.toFixed(2);
+                }
+            } catch (error) {
+                console.log('Error in Cartpage->calculateTaxAndTotal: ' + error);
             }
         }
     }, {
         key: 'savePriceBreakdown',
         value: function savePriceBreakdown() {
-            var status = false;
-            if (this.priceBreakdown) {
-                localStorage.setItem('recipt', JSON.stringify(this.priceBreakdown));
-                status = true;
+            try {
+                var status = false;
+                if (this.priceBreakdown) {
+                    localStorage.setItem('recipt', JSON.stringify(this.priceBreakdown));
+                    status = true;
+                }
+                return status;
+            } catch (error) {
+                console.log('Error in Cartpage->savePriceBreakdown: ' + error);
             }
-            return status;
         }
     }, {
         key: 'getPriceBreakdown',
         value: function getPriceBreakdown() {
-            if (localStorage.getItem('recipt')) {
-                this.priceBreakdown = JSON.parse(localStorage.getItem('recipt'));
+            try {
+                if (localStorage.getItem('recipt')) {
+                    this.priceBreakdown = JSON.parse(localStorage.getItem('recipt'));
+                }
+            } catch (error) {
+                console.log('Error in Cartpage->getPriceBreakdown: ' + error);
             }
         }
     }]);
